@@ -23,7 +23,12 @@ def list_weekdays(start: date, end: date, weekday: int = 3) -> list[date]:
 
 def format_weekday(day: date) -> str:
     iso_year, iso_week, _ = day.isocalendar()
-    return f"{day.strftime('%d.%m.%Y')}  {day.strftime('%A'):9} KW {iso_week:>2}  (ISO year {iso_year})"
+    
+    if iso_week in [41, 42, 52, 53]:
+      return f"{day.strftime('%d.%m.%Y')}  {day.strftime('%A'):9} KW {iso_week:>2} Ferien"
+    else:
+      return f"{day.strftime('%d.%m.%Y')}  {day.strftime('%A'):9} KW {iso_week:>2}"
+    #return f"{day.strftime('%d.%m.%Y')}  {day.strftime('%A'):9} KW {iso_week:>2}  (ISO year {iso_year})"
 
 
 def main(argv: list[str]) -> None:
@@ -32,10 +37,10 @@ def main(argv: list[str]) -> None:
         weekday = int(argv[1])
 
     start = date(2026, 8, 17)
-    end = date(2027, 2, 28)
+    end = date(2027, 2, 14)
 
-    print(f"Weekday = {weekday} ({date(2026, 1, 5).strftime('%A').upper() if weekday == 0 else ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][weekday]})")
-    print(f"Dates from {start} to {end}:\n")
+    # print(f"Weekday = {weekday} ({date(2026, 1, 5).strftime('%A').upper() if weekday == 0 else ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][weekday]})")
+    # print(f"Dates from {start} to {end}:\n")
     for d in list_weekdays(start, end, weekday=weekday):
         print(f"   {format_weekday(d)}")
 
